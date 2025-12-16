@@ -1,0 +1,9 @@
+# Copyright (c) 2024 Joan
+# SPDX-License-Identifier: MIT
+
+if SHIELD_JOANPAD
+
+config ZMK_KEYBOARD_NAME
+    default "JoanPad"
+
+endif

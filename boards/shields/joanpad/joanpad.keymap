@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2024 Joan
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            // Basic numpad/function layout
+            // Customize as needed for your workflow
+            bindings = <
+                &kp N7      &kp N8      &kp N9
+                &kp N4      &kp N5      &kp N6
+                &kp N1      &kp N2      &kp N3
+                &kp N0      &kp DOT     &kp ENTER
+                &kp PLUS    &kp MINUS   &kp STAR
+                &mo 1       &kp BSPC    &kp SLASH
+            >;
+        };
+
+        function_layer {
+            // Function/system layer
+            bindings = <
+                &kp F7      &kp F8      &kp F9
+                &kp F4      &kp F5      &kp F6
+                &kp F1      &kp F2      &kp F3
+                &kp F10     &kp F11     &kp F12
+                &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2
+                &trans      &bt BT_CLR  &bootloader
+            >;
+        };
+    };
+};
