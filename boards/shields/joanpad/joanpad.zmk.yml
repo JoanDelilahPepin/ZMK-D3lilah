@@ -1,0 +1,8 @@
+file_format: "1"
+id: joanpad
+name: JoanPad
+type: shield
+url: https://github.com/yourusername/joanpad
+requires: [nice_nano_v2]
+features:
+  - keys

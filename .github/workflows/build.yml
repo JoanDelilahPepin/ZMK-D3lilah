@@ -1,0 +1,51 @@
+name: Build ZMK firmware
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    name: Build JoanPad
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache west modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            modules/
+            tools/
+            zephyr/
+            bootloader/
+            zmk/
+          key: west-${{ runner.os }}-${{ hashFiles('config/west.yml') }}
+
+      - name: West Init
+        run: west init -l config
+
+      - name: West Update
+        run: west update
+
+      - name: West Zephyr export
+        run: west zephyr-export
+
+      - name: Build JoanPad
+        run: |
+          west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=joanpad -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+
+      - name: Rename firmware
+        run: cp build/zephyr/zmk.uf2 joanpad-nice_nano_v2.uf2
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: joanpad-firmware
+          path: joanpad-nice_nano_v2.uf2
