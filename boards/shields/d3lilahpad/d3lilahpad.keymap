@@ -1,39 +1,241 @@
 /*
- * Copyright (c) 2024 D3lilah
- * SPDX-License-Identifier: MIT
+ * D3lilahPad-18 ZMK Keymap
+ * 3 columns x 6 rows
+ * Layer 0: Obsidian/Markdown
+ * Layer 1: Google Docs
  */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/outputs.h>
 
 / {
+    macros {
+        // ==================== CUT MACROS (shared both layers) ====================
+
+        // Row 0: Word cuts
+        cbw: cut_begin_word {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(LA(LEFT))>, <&kp LG(X)>;
+        };
+
+        cew: cut_end_word {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(LA(RIGHT))>, <&kp LG(X)>;
+        };
+
+        cw: cut_word {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LA(LEFT)>, <&kp LS(LA(RIGHT))>, <&kp LG(X)>;
+        };
+
+        // Row 1: Line cuts
+        cbl: cut_begin_line {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(LG(LEFT))>, <&kp LG(X)>;
+        };
+
+        cel: cut_end_line {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(LG(RIGHT))>, <&kp LG(X)>;
+        };
+
+        cl: cut_line {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LG(LEFT)>, <&kp LS(LG(RIGHT))>, <&kp LG(X)>;
+        };
+
+        // Row 2: Paragraph cuts
+        cbp: cut_begin_para {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(LA(UP))>, <&kp LG(X)>;
+        };
+
+        cep: cut_end_para {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(LA(DOWN))>, <&kp LG(X)>;
+        };
+
+        cp: cut_para {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LA(UP)>, <&kp LS(LA(DOWN))>, <&kp LG(X)>;
+        };
+
+        // ==================== LAYER 0: MARKDOWN/OBSIDIAN ====================
+
+        // Row 3: Headings (# = Shift+3 on US keyboard)
+        mh1: md_h1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(N3) &kp SPACE>;
+        };
+
+        mh2: md_h2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(N3) &kp LS(N3) &kp SPACE>;
+        };
+
+        mh3: md_h3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(N3) &kp LS(N3) &kp LS(N3) &kp SPACE>;
+        };
+
+        // Row 4: Formatting (* = Shift+8 on US keyboard)
+        mb: md_bold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(N8) &kp LS(N8)>;
+        };
+
+        mi: md_italic {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(N8)>;
+        };
+
+        // Row 5: Wraps (" = Shift+' and ( = Shift+9 on US keyboard)
+        mqw: md_quote_wrap {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(SQT)>;
+        };
+
+        mpw: md_paren_wrap {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LS(N9)>;
+        };
+
+        // ==================== LAYER 1: GOOGLE DOCS ====================
+
+        // Row 3: Headings
+        gh1: gdoc_h1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LG(LA(N1))>;
+        };
+
+        gh2: gdoc_h2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LG(LA(N2))>;
+        };
+
+        gh3: gdoc_h3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LG(LA(N3))>;
+        };
+
+        // Row 4: Clear formatting
+        gcf: gdoc_clear_format {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&kp LG(BSLH)>;
+        };
+
+        // Row 5: Wraps (cut, quote/paren, paste, close quote/paren)
+        gqw: gdoc_quote_wrap {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp LG(X)>, <&kp LS(SQT)>, <&kp LG(V)>, <&kp LS(SQT)>;
+        };
+
+        gpw: gdoc_paren_wrap {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp LG(X)>, <&kp LS(N9)>, <&kp LG(V)>, <&kp LS(N0)>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
-            // Basic numpad/function layout
-            // Customize as needed for your workflow
+        layer_obsidian {
             bindings = <
-                &kp N7      &kp N8      &kp N9
-                &kp N4      &kp N5      &kp N6
-                &kp N1      &kp N2      &kp N3
-                &kp N0      &kp DOT     &kp ENTER
-                &kp PLUS    &kp MINUS   &kp STAR
-                &mo 1       &kp BSPC    &kp SLASH
+                // Row 0: Word cuts
+                &cbw        &cew        &cw
+                // Row 1: Line cuts
+                &cbl        &cel        &cl
+                // Row 2: Paragraph cuts
+                &cbp        &cep        &cp
+                // Row 3: Markdown headings
+                &mh1        &mh2        &mh3
+                // Row 4: Markdown formatting
+                &mb         &mi         &kp LC(LS(K))
+                // Row 5: Markdown wraps + layer toggle
+                &mqw        &mpw        &tog 1
             >;
         };
 
-        function_layer {
-            // Function/system layer
+        layer_gdocs {
             bindings = <
-                &kp F7      &kp F8      &kp F9
-                &kp F4      &kp F5      &kp F6
-                &kp F1      &kp F2      &kp F3
-                &kp F10     &kp F11     &kp F12
-                &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2
-                &trans      &bt BT_CLR  &bootloader
+                // Row 0: Word cuts (transparent - same as layer 0)
+                &trans      &trans      &trans
+                // Row 1: Line cuts (transparent)
+                &trans      &trans      &trans
+                // Row 2: Paragraph cuts (transparent)
+                &trans      &trans      &trans
+                // Row 3: Google Docs headings
+                &gh1        &gh2        &gh3
+                // Row 4: Google Docs formatting
+                &kp LG(B)   &kp LG(I)   &gcf
+                // Row 5: Google Docs wraps + layer toggle
+                &gqw        &gpw        &tog 1
             >;
         };
     };
