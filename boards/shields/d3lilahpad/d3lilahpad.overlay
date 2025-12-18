@@ -17,6 +17,7 @@
         compatible = "zmk,physical-layout";
         display-name = "Default";
         transform = <&default_transform>;
+        kscan = <&kscan0>;
 
         keys = <
             // Row 0
