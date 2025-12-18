@@ -1,0 +1,8 @@
+file_format: "1"
+id: d3lilahpad
+name: D3lilahPad
+type: shield
+url: https://github.com/D3lilah/ZMK-D3lilah
+requires: [nice_nano_v2]
+features:
+  - keys

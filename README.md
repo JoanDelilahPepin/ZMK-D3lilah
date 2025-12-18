@@ -1,4 +1,4 @@
-# JoanPad - 18-Key Vertical Macropad
+# D3lilahPad - 18-Key Vertical Macropad
 
 A ZMK-powered vertical macropad using a nice!nano v2 controller.
 
@@ -37,7 +37,7 @@ A ZMK-powered vertical macropad using a nice!nano v2 controller.
 - **Blinking**: Advertising/pairing mode
 - **Off**: Not connected, not advertising
 
-The battery threshold can be adjusted by changing `CONFIG_ZMK_LED_INDICATORS_BAT_LOW` in `config/joanpad.conf`.
+The battery threshold can be adjusted by changing `CONFIG_ZMK_LED_INDICATORS_BAT_LOW` in `config/d3lilahpad.conf`.
 
 ## Physical Layout
 
@@ -87,7 +87,7 @@ west update
 west zephyr-export
 
 # Build firmware
-west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=joanpad -DZMK_CONFIG="$(pwd)/config"
+west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=d3lilahpad -DZMK_CONFIG="$(pwd)/config"
 
 # Firmware will be at build/zephyr/zmk.uf2
 ```
@@ -96,19 +96,19 @@ west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=joanpad -DZMK_CONFIG="$(pwd)/c
 
 1. Double-tap the reset button on the nice!nano to enter bootloader mode
 2. The nice!nano will appear as a USB drive
-3. Copy `joanpad-nice_nano_v2.uf2` to the drive
+3. Copy `d3lilahpad-nice_nano_v2.uf2` to the drive
 4. The device will automatically reboot with the new firmware
 
 ## Customization
 
-Edit `boards/shields/joanpad/joanpad.keymap` to customize your layout.
+Edit `boards/shields/d3lilahpad/d3lilahpad.keymap` to customize your layout.
 
 Refer to the [ZMK documentation](https://zmk.dev/docs) for available behaviors and keycodes.
 
 ## Troubleshooting
 
 ### Matrix issues
-If keys aren't registering correctly, you may need to swap the diode direction. In `joanpad.overlay`, change:
+If keys aren't registering correctly, you may need to swap the diode direction. In `d3lilahpad.overlay`, change:
 - `col2row` → `row2col`
 - Swap `GPIO_ACTIVE_HIGH` and `GPIO_PULL_DOWN` between col-gpios and row-gpios
 

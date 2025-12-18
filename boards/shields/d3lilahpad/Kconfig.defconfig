@@ -1,0 +1,9 @@
+# Copyright (c) 2024 D3lilah
+# SPDX-License-Identifier: MIT
+
+if SHIELD_D3LILAHPAD
+
+config ZMK_KEYBOARD_NAME
+    default "D3lilahPad"
+
+endif
