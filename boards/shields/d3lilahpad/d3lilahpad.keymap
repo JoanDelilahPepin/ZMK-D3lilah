@@ -13,21 +13,12 @@
 
 / {
     behaviors {
-        // Tap-dance for layer 0/1 selection
-        td_l01: tap_dance_layer_01 {
+        // Tap-dance for layer selection: tap=L0, double=L1, triple=L2
+        td_layers: tap_dance_layers {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&to 0>, <&to 1>;
-        };
-
-        // Hold-tap wrapper: tap/double-tap = td_l01, hold = to layer
-        lyr_td: layer_tap_dance_hold {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <300>;
-            bindings = <&to>, <&td_l01>;
+            tapping-term-ms = <250>;
+            bindings = <&to 0>, <&to 1>, <&to 2>;
         };
     };
 
@@ -240,7 +231,7 @@
                 // Row 4: Markdown formatting
                 &mb         &mi         &kp LC(LS(K))
                 // Row 5: Markdown wraps + layer select (tap=L0, double=L1, hold=L2)
-                &mqw        &mpw        &lyr_td 2 0
+                &mqw        &mpw        &td_layers
             >;
         };
 
@@ -257,7 +248,7 @@
                 // Row 4: Google Docs formatting
                 &kp LG(B)   &kp LG(I)   &gcf
                 // Row 5: Google Docs wraps + layer select
-                &gqw        &gpw        &lyr_td 2 0
+                &gqw        &gpw        &td_layers
             >;
         };
 
@@ -274,7 +265,7 @@
                 // Row 4: System
                 &sys_reset    &bootloader   &none
                 // Row 5: Return to layers
-                &to 0         &to 1         &lyr_td 2 0
+                &to 0         &to 1         &td_layers
             >;
         };
     };
