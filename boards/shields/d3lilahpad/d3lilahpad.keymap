@@ -3,12 +3,34 @@
  * 3 columns x 6 rows
  * Layer 0: Obsidian/Markdown
  * Layer 1: Google Docs
+ * Layer 2: Control (BT, Reset, Bootloader)
  */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
 
 / {
+    behaviors {
+        // Tap-dance for layer 0/1 selection
+        td_l01: tap_dance_layer_01 {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&to 0>, <&to 1>;
+        };
+
+        // Hold-tap wrapper: tap/double-tap = td_l01, hold = to layer
+        lyr_td: layer_tap_dance_hold {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <300>;
+            bindings = <&to>, <&td_l01>;
+        };
+    };
+
     macros {
         // ==================== CUT MACROS (shared both layers) ====================
 
@@ -188,16 +210,16 @@
         gqw: gdoc_quote_wrap {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <20>;
-            tap-ms = <20>;
+            wait-ms = <100>;
+            tap-ms = <100>;
             bindings = <&kp LG(X)>, <&kp LS(SQT)>, <&kp LG(V)>, <&kp LS(SQT)>;
         };
 
         gpw: gdoc_paren_wrap {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <20>;
-            tap-ms = <20>;
+            wait-ms = <100>;
+            tap-ms = <100>;
             bindings = <&kp LG(X)>, <&kp LS(N9)>, <&kp LG(V)>, <&kp LS(N0)>;
         };
     };
@@ -217,8 +239,8 @@
                 &mh1        &mh2        &mh3
                 // Row 4: Markdown formatting
                 &mb         &mi         &kp LC(LS(K))
-                // Row 5: Markdown wraps + layer toggle
-                &mqw        &mpw        &tog 1
+                // Row 5: Markdown wraps + layer select (tap=L0, double=L1, hold=L2)
+                &mqw        &mpw        &lyr_td 2 0
             >;
         };
 
@@ -234,8 +256,25 @@
                 &gh1        &gh2        &gh3
                 // Row 4: Google Docs formatting
                 &kp LG(B)   &kp LG(I)   &gcf
-                // Row 5: Google Docs wraps + layer toggle
-                &gqw        &gpw        &tog 1
+                // Row 5: Google Docs wraps + layer select
+                &gqw        &gpw        &lyr_td 2 0
+            >;
+        };
+
+        layer_control {
+            bindings = <
+                // Row 0: BT Profile Select
+                &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2
+                // Row 1: BT Navigation
+                &bt BT_PRV    &bt BT_NXT    &bt BT_CLR
+                // Row 2: BT Disconnect profiles
+                &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2
+                // Row 3: Output toggle + unused
+                &out OUT_TOG  &none         &none
+                // Row 4: System
+                &sys_reset    &bootloader   &none
+                // Row 5: Return to layers
+                &to 0         &to 1         &lyr_td 2 0
             >;
         };
     };
